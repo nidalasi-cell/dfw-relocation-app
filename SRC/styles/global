@@ -1,0 +1,175 @@
+/* global.css
+ * ─────────────────────────────────────────────────────
+ * Global styles, CSS custom properties (design tokens),
+ * resets, and responsive utility classes.
+ *
+ * WHY CSS VARIABLES?
+ * Centralising colors here means you can retheme the
+ * entire app by editing this one file, instead of hunting
+ * through dozens of inline style objects.
+ * ─────────────────────────────────────────────────────
+ */
+
+/* ── Design Tokens ── */
+:root {
+  /* Background palette */
+  --bg-base:        #0D0D1A;
+  --bg-surface:     #13131f;
+  --bg-sunken:      #1a1a2e;
+  --bg-deep:        #0D0D1A;
+
+  /* Brand / accent */
+  --accent:         #00C896;
+  --accent-dim:     #00C89618;
+  --accent-border:  #00C89630;
+  --accent-blue:    #0087C4;
+
+  /* Text */
+  --text-primary:   #E2E8F0;
+  --text-secondary: #CBD5E1;
+  --text-muted:     #94A3B8;
+  --text-faint:     #64748B;
+  --text-dimmer:    #475569;
+  --text-dimmest:   #334155;
+
+  /* Borders */
+  --border-subtle:  #ffffff0f;
+  --border-faint:   #ffffff08;
+  --border-dashed:  #ffffff10;
+
+  /* Grade colors */
+  --grade-a:  #00C896;
+  --grade-b:  #3B82F6;
+  --grade-c:  #F59E0B;
+  --grade-d:  #EF4444;
+
+  /* Drive-time colors */
+  --drive-fast:   #00C896;   /* ≤ 15 min */
+  --drive-medium: #F59E0B;   /* ≤ 30 min */
+  --drive-slow:   #EF4444;   /* > 30 min */
+
+  /* Typography */
+  --font-body:    'DM Sans', sans-serif;
+  --font-display: 'Syne', sans-serif;
+
+  /* Spacing */
+  --radius-sm:  6px;
+  --radius-md:  10px;
+  --radius-lg:  14px;
+  --radius-xl:  16px;
+}
+
+/* ── Reset ── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  font-family: var(--font-body);
+  background: var(--bg-base);
+  color: var(--text-primary);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+button {
+  font-family: var(--font-body);
+  cursor: pointer;
+}
+
+input[type="range"] {
+  accent-color: var(--accent);
+  cursor: pointer;
+  width: 100%;
+}
+
+/* ── Layout ── */
+.page-wrapper {
+  min-height: 100vh;
+  padding-bottom: 60px;
+}
+
+.content-container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+/* ── Card ── */
+.card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+}
+
+/* ── Section label ── */
+.section-label {
+  font-size: 10px;
+  color: var(--text-dimmer);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+}
+
+/* ── Tag pill ── */
+.tag-pill {
+  font-size: 11px;
+  padding: 3px 9px;
+  border-radius: 20px;
+  background: #ffffff0c;
+  border: 1px solid #ffffff15;
+  color: var(--text-muted);
+}
+
+/* ── Responsive grid helpers ── */
+/*
+ * We use a two-column grid for Rankings (sliders + cards)
+ * On mobile (<640px) it collapses to single column.
+ */
+.two-col-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  align-items: start;
+}
+
+@media (max-width: 640px) {
+  .two-col-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .content-container {
+    padding: 0 12px;
+  }
+}
+
+/* Auto-fill grid used for JK cards and school comparison */
+.auto-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  gap: 12px;
+}
+
+/* ── Utility classes ── */
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+}
+
+.text-accent   { color: var(--accent); }
+.text-muted    { color: var(--text-muted); }
+.text-faint    { color: var(--text-faint); }
+.text-dimmer   { color: var(--text-dimmer); }
+.font-display  { font-family: var(--font-display); }
+.font-bold     { font-weight: 700; }
