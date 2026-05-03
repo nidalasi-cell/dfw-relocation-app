@@ -1,1 +1,75 @@
+// src/pages/RelocationPage.jsx
+// ─────────────────────────────────────────────────────
+// The main page component.
+//
+// ARCHITECTURE NOTE — Pages vs Components:
+//  - /components  holds reusable UI pieces (Bar, Slider, etc.)
+//  - /pages       holds "screens" that compose those pieces
+//
+// RelocationPage owns:
+//  - Which tab is active (tab state)
+//  - Priority weights via the useWeights() custom hook
+//  - Rendering the layout (Header → Tabs → Tab content → AiAdvisor)
+//
+// It passes data down to child components via props.
+// None of the child components manage weights or tab state —
+// they receive everything they need as props or read static data.
+// ─────────────────────────────────────────────────────
+
+import { useState } from 'react'
+
+import Header         from '../components/Header'
+import Tabs           from '../components/Tabs'
+import RankingsTab    from '../components/RankingsTab'
+import SchoolsTab     from '../components/SchoolsTab'
+import JamatkhanasTab from '../components/JamatkhanasTab'
+import AiAdvisor      from '../components/AiAdvisor'
+
+import { useWeights } from '../hooks/useWeights'
+
+export default function RelocationPage() {
+  const [activeTab, setActiveTab] = useState('rankings')
+
+  // Custom hook encapsulates all weight state + derived rankings
+  const { weights, setWeight, ranked } = useWeights()
+
+  return (
+    <div className="page-wrapper">
+      <Header />
+
+      <main className="content-container">
+        <Tabs activeTab={activeTab} onChange={setActiveTab} />
+
+        {/* Render only the active tab's content */}
+        {activeTab === 'rankings' && (
+          <RankingsTab
+            weights={weights}
+            setWeight={setWeight}
+            ranked={ranked}
+          />
+        )}
+
+        {activeTab === 'schools' && <SchoolsTab />}
+
+        {activeTab === 'jamatkhanas' && <JamatkhanasTab />}
+
+        {/*
+          AI Advisor always shows at the bottom regardless of active tab.
+          It receives ranked + weights so it can build a contextual prompt.
+        */}
+        <AiAdvisor ranked={ranked} weights={weights} />
+
+        <footer style={{
+          textAlign: 'center',
+          marginTop: 20,
+          fontSize: 10,
+          color: 'var(--text-dimmest)',
+          paddingBottom: 8,
+        }}>
+          School data: TEA 2024–25 · Niche · SchoolDigger · 6 confirmed DFW Jamatkhanas · 2026
+        </footer>
+      </main>
+    </div>
+  )
+}
 
